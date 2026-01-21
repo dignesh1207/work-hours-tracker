@@ -99,6 +99,15 @@ th, td {
   white-space: nowrap;
 }
 
+/* SPACE BETWEEN ROWS */
+table tbody tr {
+  border-bottom: 12px solid #f4f6f8;
+}
+
+table tbody tr:last-child {
+  border-bottom: none;
+}
+
 .note {
   text-align: center;
   color: gray;

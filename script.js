@@ -60,27 +60,29 @@ function addPlace() {
 }
 
 function addEntry() {
-  const person = personSelect.value;
-  const place = placeSelect.value;
-  const date = dateInput.value;
-  const hours = parseFloat(hoursInput.value);
+  const person = document.getElementById("personSelect").value;
+  const place = document.getElementById("placeSelect").value;
+  const date = document.getElementById("dateInput").value;
+  const hours = parseFloat(document.getElementById("hoursInput").value);
 
-  if (!person || !place || !date || !hours) return;
+  if (!person || !place || !date || !hours) {
+    alert("Please fill all fields");
+    return;
+  }
 
-  const week = getWeekInfo(date);
-
-  entries.push({
-    person,
-    place,
-    date,
-    hours,
-    weekKey: week.key,
-    weekLabel: week.label
-  });
-
+  entries.push({ id: Date.now(), person, place, date, hours });
   saveData();
-  render();
+  renderAll();
+
+  // KEEP last selected values
+  document.getElementById("personSelect").value = person;
+  document.getElementById("placeSelect").value = place;
+  document.getElementById("dateInput").value = date;
+
+  // ONLY clear hours
+  document.getElementById("hoursInput").value = "";
 }
+
 
 function editEntry(index) {
   const entry = entries[index];
@@ -170,6 +172,7 @@ function render() {
   }
 
   busiestWeek.textContent = `Busiest Week: ${maxWeek} – ${maxHours} hours`;
+
 }
 
 render();
