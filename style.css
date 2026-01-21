@@ -10,7 +10,7 @@ body {
 }
 
 .container {
-  max-width: 420px; /* iPhone 14 Pro friendly */
+  max-width: 420px;
   margin: auto;
 }
 
@@ -72,39 +72,21 @@ button.primary {
   margin-top: 12px;
 }
 
-.card-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.table-wrapper {
+  overflow-x: auto;
 }
 
-.entry-card {
-  background: #fafafa;
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid #eee;
-}
-
-.entry-card .row {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 6px;
-}
-
-.entry-card .row strong {
-  color: #333;
-}
-
-.entry-card .actions {
-  display: flex;
-  gap: 10px;
+table {
+  width: 100%;
+  border-collapse: collapse;
   margin-top: 10px;
 }
 
-.entry-card button {
-  width: 50%;
+th, td {
+  border: 1px solid #ddd;
   padding: 8px;
-  font-size: 0.9em;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .note {
@@ -122,13 +104,14 @@ button.primary {
   border-top: 1px solid #ddd;
 }
 
-/* Mobile */
+/* MOBILE FIX */
 @media (max-width: 420px) {
   .form-grid {
     grid-template-columns: 1fr;
   }
 
-  .app-header h1 {
-    font-size: 1.6em;
+  th, td {
+    white-space: normal;
+    font-size: 0.9em;
   }
 }
