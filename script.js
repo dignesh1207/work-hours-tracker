@@ -176,5 +176,4 @@ function render() {
   busiestWeek.textContent = `Busiest Week: ${maxWeek} – ${maxHours} hours`;
 }
 
-
 render();

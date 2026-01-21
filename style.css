@@ -6,7 +6,7 @@ body {
   font-family: Arial, sans-serif;
   background: #f4f6f8;
   margin: 0;
-  padding: 20px;
+  padding: 10px;
 }
 
 .container {
@@ -16,7 +16,7 @@ body {
 
 .app-header {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .app-header h1 {
@@ -32,7 +32,7 @@ body {
 .card {
   background: white;
   padding: 20px;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
@@ -50,8 +50,8 @@ label {
 
 input, select, button {
   width: 100%;
-  padding: 8px;
-  font-size: 1em;
+  padding: 10px;
+  font-size: 1.05em;
   margin-top: 5px;
 }
 
@@ -69,6 +69,10 @@ button:hover {
 
 button.primary {
   margin-top: 15px;
+}
+
+.table-wrapper {
+  overflow-x: auto;
 }
 
 table {
@@ -106,5 +110,9 @@ th, td {
 @media (max-width: 700px) {
   .form-grid {
     grid-template-columns: 1fr;
+  }
+
+  table {
+    font-size: 0.9em;
   }
 }
