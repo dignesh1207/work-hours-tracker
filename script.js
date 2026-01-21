@@ -1,4 +1,3 @@
-// ---------- STORAGE ----------
 let people = JSON.parse(localStorage.getItem("people")) || [];
 let places = JSON.parse(localStorage.getItem("places")) || [];
 let entries = JSON.parse(localStorage.getItem("entries")) || [];
@@ -9,7 +8,6 @@ function saveData() {
   localStorage.setItem("entries", JSON.stringify(entries));
 }
 
-// ---------- DATE HELPERS ----------
 function getWeekStart(date) {
   const d = new Date(date);
   const day = d.getDay() || 7;
@@ -32,9 +30,7 @@ function getWeekInfo(dateString) {
   const date = new Date(dateString);
   const start = new Date(date.getFullYear(), 0, 1);
   const diff = date - start;
-  const week = Math.ceil(
-    (diff + start.getDay() * 86400000) / (7 * 86400000)
-  );
+  const week = Math.ceil((diff + start.getDay() * 86400000) / (7 * 86400000));
 
   const ws = getWeekStart(date);
   const we = getWeekEnd(date);
@@ -45,7 +41,6 @@ function getWeekInfo(dateString) {
   };
 }
 
-// ---------- ADD ----------
 function addPerson() {
   const name = personInput.value.trim();
   if (!name) return;
@@ -87,7 +82,6 @@ function addEntry() {
   render();
 }
 
-// ---------- EDIT ----------
 function editEntry(index) {
   const entry = entries[index];
 
@@ -100,7 +94,6 @@ function editEntry(index) {
   entry.date = newDate;
   entry.hours = parseFloat(newHours);
 
-  // Recalculate week info
   const week = getWeekInfo(newDate);
   entry.weekKey = week.key;
   entry.weekLabel = week.label;
@@ -109,7 +102,6 @@ function editEntry(index) {
   render();
 }
 
-// ---------- DELETE ----------
 function deleteEntry(index) {
   if (!confirm("Are you sure you want to delete this entry?")) return;
   entries.splice(index, 1);
@@ -117,10 +109,13 @@ function deleteEntry(index) {
   render();
 }
 
-// ---------- RENDER ----------
 function render() {
   personSelect.innerHTML = people.map(p => `<option>${p}</option>`).join("");
   placeSelect.innerHTML = places.map(p => `<option>${p}</option>`).join("");
+
+  const entriesTable = document.getElementById("entriesTable");
+  const weeklyTotals = document.getElementById("weeklyTotals");
+  const busiestWeek = document.getElementById("busiestWeek");
 
   entriesTable.innerHTML = "";
   weeklyTotals.innerHTML = "";
@@ -130,20 +125,21 @@ function render() {
   let maxWeek = "—";
 
   entries.forEach((e, i) => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td>${e.date}</td>
-      <td>${e.person}</td>
-      <td>${e.place}</td>
-      <td>${e.hours}</td>
-      <td><button onclick="editEntry(${i})">Edit</button></td>
-      <td><button onclick="deleteEntry(${i})">Delete</button></td>
+    const card = document.createElement("div");
+    card.className = "entry-card";
+    card.innerHTML = `
+      <div class="row"><strong>Date:</strong> <span>${e.date}</span></div>
+      <div class="row"><strong>Person:</strong> <span>${e.person}</span></div>
+      <div class="row"><strong>Place:</strong> <span>${e.place}</span></div>
+      <div class="row"><strong>Hours:</strong> <span>${e.hours}</span></div>
+      <div class="actions">
+        <button onclick="editEntry(${i})">Edit</button>
+        <button onclick="deleteEntry(${i})">Delete</button>
+      </div>
     `;
-    entriesTable.appendChild(row);
+    entriesTable.appendChild(card);
 
-    // Weekly aggregation with workplace included
     const key = `${e.weekKey}-${e.person}-${e.place}`;
-
     if (!weeklyMap[key]) {
       weeklyMap[key] = {
         label: e.weekLabel,
@@ -152,7 +148,6 @@ function render() {
         hours: 0
       };
     }
-
     weeklyMap[key].hours += e.hours;
 
     if (weeklyMap[key].hours > maxHours) {
@@ -163,14 +158,15 @@ function render() {
 
   for (const k in weeklyMap) {
     const w = weeklyMap[k];
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${w.label}</td>
-      <td>${w.person}</td>
-      <td>${w.hours}</td>
-      <td>${w.place}</td>
+    const card = document.createElement("div");
+    card.className = "entry-card";
+    card.innerHTML = `
+      <div class="row"><strong>Week:</strong> <span>${w.label}</span></div>
+      <div class="row"><strong>Person:</strong> <span>${w.person}</span></div>
+      <div class="row"><strong>Place:</strong> <span>${w.place}</span></div>
+      <div class="row"><strong>Total Hours:</strong> <span>${w.hours}</span></div>
     `;
-    weeklyTotals.appendChild(tr);
+    weeklyTotals.appendChild(card);
   }
 
   busiestWeek.textContent = `Busiest Week: ${maxWeek} – ${maxHours} hours`;

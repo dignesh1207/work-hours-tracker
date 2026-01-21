@@ -6,7 +6,6 @@
   <title>Work Hours Tracker</title>
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
   <div class="container">
@@ -72,35 +71,13 @@
     <!-- Weekly Totals -->
     <section class="card">
       <h2>Weekly Totals</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Week</th>
-            <th>Person</th>
-            <th>Total Hours</th>
-            <th>Workplace</th>
-          </tr>
-        </thead>
-        <tbody id="weeklyTotals"></tbody>
-      </table>
+      <div id="weeklyTotals" class="card-list"></div>
     </section>
 
     <!-- All Entries -->
     <section class="card">
       <h2>All Entries</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Person</th>
-            <th>Workplace</th>
-            <th>Hours</th>
-            <th>Edit</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
-        <tbody id="entriesTable"></tbody>
-      </table>
+      <div id="entriesTable" class="card-list"></div>
     </section>
 
     <p class="note">✔ Data saves automatically in your browser</p>
