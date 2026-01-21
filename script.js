@@ -1,3 +1,8 @@
+const personInput = document.getElementById("personInput");
+const placeInput = document.getElementById("placeInput");
+const personSelect = document.getElementById("personSelect");
+const placeSelect = document.getElementById("placeSelect");
+
 let people = JSON.parse(localStorage.getItem("people")) || [];
 let places = JSON.parse(localStorage.getItem("places")) || [];
 let entries = JSON.parse(localStorage.getItem("entries")) || [];
@@ -60,14 +65,13 @@ function addPlace() {
 }
 
 function addEntry() {
-  const person = document.getElementById("personSelect").value;
-  const place = document.getElementById("placeSelect").value;
+  const person = personSelect.value;
+  const place = placeSelect.value;
   const date = document.getElementById("dateInput").value;
   const hours = parseFloat(document.getElementById("hoursInput").value);
 
-  // ✅ FIXED VALIDATION
   if (!person || !place || !date || isNaN(hours)) {
-    alert("Please fill all fields");
+    alert("Please fill all fields correctly.");
     return;
   }
 
@@ -86,12 +90,10 @@ function addEntry() {
   saveData();
   render();
 
-  // KEEP last selected values
-  document.getElementById("personSelect").value = person;
-  document.getElementById("placeSelect").value = place;
+  // Keep selections
+  personSelect.value = person;
+  placeSelect.value = place;
   document.getElementById("dateInput").value = date;
-
-  // ONLY clear hours
   document.getElementById("hoursInput").value = "";
 }
 
@@ -172,4 +174,17 @@ function render() {
   for (const k in weeklyMap) {
     const w = weeklyMap[k];
     const card = document.createElement("div");
-    card.className = "entry-card
+    card.className = "entry-card";
+    card.innerHTML = `
+      <div class="row"><strong>Week:</strong> <span>${w.label}</span></div>
+      <div class="row"><strong>Person:</strong> <span>${w.person}</span></div>
+      <div class="row"><strong>Place:</strong> <span>${w.place}</span></div>
+      <div class="row"><strong>Total Hours:</strong> <span>${w.hours}</span></div>
+    `;
+    weeklyTotals.appendChild(card);
+  }
+
+  busiestWeek.textContent = `Busiest Week: ${maxWeek} – ${maxHours} hours`;
+}
+
+render();
