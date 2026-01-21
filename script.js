@@ -65,14 +65,26 @@ function addEntry() {
   const date = document.getElementById("dateInput").value;
   const hours = parseFloat(document.getElementById("hoursInput").value);
 
-  if (!person || !place || !date || !hours) {
+  // ✅ FIXED VALIDATION
+  if (!person || !place || !date || isNaN(hours)) {
     alert("Please fill all fields");
     return;
   }
 
-  entries.push({ id: Date.now(), person, place, date, hours });
+  const week = getWeekInfo(date);
+
+  entries.push({
+    id: Date.now(),
+    person,
+    place,
+    date,
+    hours,
+    weekKey: week.key,
+    weekLabel: week.label
+  });
+
   saveData();
-  renderAll();
+  render();
 
   // KEEP last selected values
   document.getElementById("personSelect").value = person;
@@ -82,7 +94,6 @@ function addEntry() {
   // ONLY clear hours
   document.getElementById("hoursInput").value = "";
 }
-
 
 function editEntry(index) {
   const entry = entries[index];
@@ -161,18 +172,4 @@ function render() {
   for (const k in weeklyMap) {
     const w = weeklyMap[k];
     const card = document.createElement("div");
-    card.className = "entry-card";
-    card.innerHTML = `
-      <div class="row"><strong>Week:</strong> <span>${w.label}</span></div>
-      <div class="row"><strong>Person:</strong> <span>${w.person}</span></div>
-      <div class="row"><strong>Place:</strong> <span>${w.place}</span></div>
-      <div class="row"><strong>Total Hours:</strong> <span>${w.hours}</span></div>
-    `;
-    weeklyTotals.appendChild(card);
-  }
-
-  busiestWeek.textContent = `Busiest Week: ${maxWeek} – ${maxHours} hours`;
-
-}
-
-render();
+    card.className = "entry-card
