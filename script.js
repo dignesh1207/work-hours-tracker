@@ -253,7 +253,7 @@ function renderEntries() {
   );
 
   // Sort by date descending
-  filtered = filtered.slice().sort((a, b) => b.date.localeCompare(a.date));
+  filtered = filtered.slice().sort((a, b) => a.date.localeCompare(b.date));
 
   const container = document.getElementById("entriesTable");
   const noEl = document.getElementById("noEntries");
