@@ -223,7 +223,11 @@ function renderDashboard() {
   // Weekly totals
   const wtEl = document.getElementById("weeklyTotals");
   const noWeekly = document.getElementById("noWeekly");
-  const keys = Object.keys(weeklyMap);
+  const keys = Object.keys(weeklyMap).sort((a, b) => {
+    const dateA = a.substring(a.indexOf('-') + 1, a.indexOf('-') + 11);
+    const dateB = b.substring(b.indexOf('-') + 1, b.indexOf('-') + 11);
+    return dateB.localeCompare(dateA);
+  });
 
   if (keys.length === 0) {
     wtEl.innerHTML = "";
