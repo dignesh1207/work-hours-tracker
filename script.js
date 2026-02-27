@@ -223,11 +223,9 @@ function renderDashboard() {
   // Weekly totals
   const wtEl = document.getElementById("weeklyTotals");
   const noWeekly = document.getElementById("noWeekly");
-  const keys = Object.keys(weeklyMap).sort((a, b) => {
-    const dateA = a.substring(a.indexOf('-') + 1, a.indexOf('-') + 11);
-    const dateB = b.substring(b.indexOf('-') + 1, b.indexOf('-') + 11);
-    return dateB.localeCompare(dateA);
-  });
+  const keys = Object.keys(weeklyMap).sort((a, b) =>
+    weeklyMap[b].weekStart > weeklyMap[a].weekStart ? 1 : -1
+  );
 
   if (keys.length === 0) {
     wtEl.innerHTML = "";
@@ -305,7 +303,8 @@ function buildWeeklyMap() {
   entries.forEach(e => {
     const key = `${e.weekKey}-${e.person}-${e.place}`;
     if (!map[key]) {
-      map[key] = { label: e.weekLabel, person: e.person, place: e.place, hours: 0 };
+      const weekStart = e.weekKey.split('-').slice(1).join('-');
+      map[key] = { label: e.weekLabel, person: e.person, place: e.place, hours: 0, weekStart };
     }
     map[key].hours += e.hours;
   });
